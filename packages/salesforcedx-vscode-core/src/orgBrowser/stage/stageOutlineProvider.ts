@@ -72,6 +72,9 @@ export class ComponentStageOutlineProvider
     if (!componentNode) {
       componentNode = new StageNode(fullName);
       typeNode.addChild(componentNode);
+      typeNode.children.sort((a: StageNode, b: StageNode) =>
+        a.label!.localeCompare(b.label!)
+      );
     }
 
     this._onDidChangeTreeData.fire();
@@ -84,7 +87,7 @@ export class ComponentStageOutlineProvider
       );
       node.parent.children.splice(index, 1);
       if (node.parent.children.length === 0) {
-        this.typeNameToNode.delete(node.parent.label!);
+        this.typeNameToNode.delete(node.parent.typeName!);
       }
       node.parent = undefined;
       this._onDidChangeTreeData.fire();
